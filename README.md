@@ -7,7 +7,9 @@
 
 A desktop overlay application that stays always on top, runs transparently without a title bar or borders, and dynamically changes character images based on your global keyboard input.
 
-![screenshot](./docs/screenshot.png)
+<p align="center">
+  <img src="./docs/screenshot.gif">
+</p>
 
 ## ✨ Features
 

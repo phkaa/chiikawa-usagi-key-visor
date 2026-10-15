@@ -7,7 +7,9 @@
 
 어떤 프로그램을 실행하더라도 항상 최상위에 떠 있으며, 테두리와 타이틀바가 없는 투명한 창에서 키보드 입력에 따라 캐릭터 이미지가 역동적으로 변하는 데스크톱 오버레이 프로그램입니다.
 
-![screenshot](./docs/screenshot.png)
+<p align="center">
+  <img src="./docs/screenshot.gif">
+</p>
 
 ## ✨ 주요 기능
 
