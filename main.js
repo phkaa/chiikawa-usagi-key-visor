@@ -1,8 +1,10 @@
-const { app, BrowserWindow, Tray, Menu } = require('electron')
+const { app, BrowserWindow, Tray, Menu, nativeImage  } = require('electron')
 const { uIOhook } = require('uiohook-napi')
 
 let mainWindow
 let tray
+let isPositionLocked = false
+
 const ICON_IMG = './resources/imgs/icon.png'
 const MAIN_HTML = './resources/main.html'
 
@@ -21,6 +23,7 @@ const createWindow = () => {
     },
   })
 
+  mainWindow.setIgnoreMouseEvents(isPositionLocked)
   mainWindow.setAlwaysOnTop(true, 'screen-saver')
   mainWindow.loadFile(MAIN_HTML)
 
@@ -35,6 +38,22 @@ const createTray = () => {
 
 const createTrayMenu = (app, tray) => {
   const contextMenu = Menu.buildFromTemplate([
+    {
+      label: 'Lock position',
+      tytpe: 'checkbox',
+      click: (menuItem) => {
+        isPositionLocked = !isPositionLocked
+        
+        if (isPositionLocked) {
+          mainWindow.setIgnoreMouseEvents(true, { forward: true })
+        } else {
+          mainWindow.setIgnoreMouseEvents(false)
+        }
+
+        menuItem.label = isPositionLocked ? 'Unlock position' : 'Lock position'
+      }
+    },
+    { type: 'separator' },
     {
       label: 'Quit',
       click: () => {
