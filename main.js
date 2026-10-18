@@ -4,6 +4,7 @@ const { uIOhook } = require('uiohook-napi')
 let mainWindow
 let tray
 let isPositionLocked = false
+let currentOpacity = 1.0
 
 const ICON_IMG = './resources/imgs/icon.png'
 const MAIN_HTML = './resources/main.html'
@@ -30,17 +31,56 @@ const createWindow = () => {
   return mainWindow
 }
 
+const setWindowOpacity = (app, tray, mainWindow, opacity) => {
+  currentOpacity = opacity
+
+  if (mainWindow) {
+    mainWindow.setOpacity(opacity)
+  }
+
+  createTrayMenu(app, tray, mainWindow)
+}
+
 const createTray = () => {
   const tray = new Tray(ICON_IMG)
 
   return tray
 }
 
-const createTrayMenu = (app, tray) => {
+const createTrayMenu = (app, tray, mainWindow) => {
   const contextMenu = Menu.buildFromTemplate([
     {
+      label: 'Opacity',
+      type: 'submenu',
+      submenu: [
+        {
+          label: '100% (default)',
+          type: 'checkbox',
+          checked: currentOpacity === 1.0,
+          click: () => setWindowOpacity(app, tray, mainWindow, 1.0)
+        },
+        {
+          label: '80%',
+          type: 'checkbox',
+          checked: currentOpacity === 0.8,
+          click: () => setWindowOpacity(app, tray, mainWindow, 0.8)
+        },
+        {
+          label: '50%',
+          type: 'checkbox',
+          checked: currentOpacity === 0.5,
+          click: () => setWindowOpacity(app, tray, mainWindow, 0.5)
+        },
+        {
+          label: '30%',
+          type: 'checkbox',
+          checked: currentOpacity === 0.3,
+          click: () => setWindowOpacity(app, tray, mainWindow, 0.3)
+        }
+      ]
+    },
+    {
       label: 'Lock position',
-      tytpe: 'checkbox',
       click: (menuItem) => {
         isPositionLocked = !isPositionLocked
         
@@ -98,7 +138,7 @@ const createKeyboardListener = (mainWindow) => {
 app.whenReady().then(() => {
   mainWindow = createWindow()
   tray = createTray()
-  createTrayMenu(app, tray)
+  createTrayMenu(app, tray, mainWindow)
   createAppEvents(app, mainWindow)
   createKeyboardListener(mainWindow)
 })
