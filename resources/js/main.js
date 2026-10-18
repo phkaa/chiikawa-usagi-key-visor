@@ -2,40 +2,54 @@ const { ipcRenderer } = require('electron')
 const characterImage = document.getElementById('character')
 
 let lastKeyWasLeft = false
-let idleTimer = null
-let fireTimer = null
 
-const IDLE_TIMEOUT = 0.5 * 1000
-const FIRE_TIMEOUT = 3 * 1000
+const CHARACTER_STATES = {
+  idle: {
+    img: './imgs/idle.png',
+    timeout: 0.5 * 1000,
+    timer: null,
+  },
+  fire: {
+    img: './imgs/fire.png',
+    timeout: 10 * 1000,
+    timer: null,
+  },
+  sleeping: {
+    img: './imgs/sleeping.png',
+    timeout: 30 * 1000,
+    timer: null,
+  },
+}
 
-const ACTION_IMGS = {
-  IDLE: './imgs/idle.png',
+const MOVE_IMGS = {
   LEFT: './imgs/left.png',
   RIGHT: './imgs/right.png',
-  FIRE: './imgs/fire.png',
+}
+// 2. 등록된 모든 상태의 타이머를 일괄 초기화
+const clearAllTimers = () => {
+  Object.values(CHARACTER_STATES).forEach((state) => {
+    if (state.timer) {
+      clearTimeout(state.timer)
+      state.timer = null
+    }
+  })
+}
+
+const setAllTimers = () => {
+  Object.values(CHARACTER_STATES).forEach((state) => {
+    state.timer = setTimeout(() => {
+      characterImage.src = state.img
+      lastKeyWasLeft = false
+    }, state.timeout)
+  })
 }
 
 const handleKeyPress = (keyCode) => {
   lastKeyWasLeft = !lastKeyWasLeft
-  characterImage.src = lastKeyWasLeft ? ACTION_IMGS.LEFT : ACTION_IMGS.RIGHT
+  characterImage.src = lastKeyWasLeft ? MOVE_IMGS.LEFT : MOVE_IMGS.RIGHT
 
-  if (idleTimer) {
-    clearTimeout(idleTimer)
-  }
-
-  if (fireTimer) {
-    clearTimeout(fireTimer)
-  }
-
-  idleTimer = setTimeout(() => {
-    characterImage.src = ACTION_IMGS.IDLE
-    lastKeyWasLeft = false
-  }, IDLE_TIMEOUT)
-
-  fireTimer = setTimeout(() => {
-    characterImage.src = ACTION_IMGS.FIRE
-    lastKeyWasLeft = false
-  }, FIRE_TIMEOUT)
+  clearAllTimers()
+  setAllTimers()
 }
 
 ipcRenderer.on('key-press', (event, keyCode) => {
