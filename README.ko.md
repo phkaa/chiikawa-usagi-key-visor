@@ -54,6 +54,13 @@
    npm start
    ```
 
+## 📦 Exe 생성 방법
+
+1. 애플리케이션을 (Electron Builder / Packager를 사용하여) 실행 가능한 배포판으로 번들링하고 패키징하기:
+   ```bash
+   npm start
+   ```
+
 ## ❌ 종료 방법 (How to Quit)
 
 - 본 프로그램은 작업표시줄에 아이콘이 표시되지 않도록(`skipTaskbar: true`) 설정된 투명 오버레이 앱이므로, **시스템 트레이**를 통해 안전하게 종료해야 합니다:

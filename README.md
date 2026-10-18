@@ -62,6 +62,15 @@ A desktop overlay application that stays always on top, runs transparently witho
 
 ---
 
+## 📦 How to Package / Build
+
+1. To bundle and package the application into an executable distribution (using Electron Builder / Packager):
+   ```bash
+   npm start
+   ```
+
+---
+
 ## ❌ How to Quit
 
 - Since the app hides from the Windows taskbar (`skipTaskbar: true`) and floats as a transparent overlay, you can quit it safely via the **System Tray**:
