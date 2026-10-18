@@ -1,18 +1,20 @@
-const { app, BrowserWindow, Tray, Menu, nativeImage  } = require('electron')
+const { app, BrowserWindow, Tray, Menu } = require('electron')
 const { uIOhook } = require('uiohook-napi')
+const path = require('path')
 
 let mainWindow
 let tray
 let isPositionLocked = false
 let currentOpacity = 1.0
 
-const ICON_IMG = './resources/imgs/icon.png'
-const MAIN_HTML = './resources/main.html'
+const ICON_IMG = path.join(__dirname, './resources/imgs/icon.png')
+const MAIN_HTML = path.join(__dirname, './resources/main.html')
 
 const createWindow = () => {
   const mainWindow = new BrowserWindow({
-    width: 300,
-    height: 300,
+    width: 150,
+    height: 150,
+    icon: ICON_IMG,
     frame: false,
     transparent: true,
     alwaysOnTop: true,

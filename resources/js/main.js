@@ -25,7 +25,7 @@ const MOVE_IMGS = {
   LEFT: './imgs/left.png',
   RIGHT: './imgs/right.png',
 }
-// 2. 등록된 모든 상태의 타이머를 일괄 초기화
+
 const clearAllTimers = () => {
   Object.values(CHARACTER_STATES).forEach((state) => {
     if (state.timer) {
